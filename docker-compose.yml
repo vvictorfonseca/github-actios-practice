@@ -1,0 +1,23 @@
+services:
+  db_postgres_github-ci:
+    image: postgres
+    container_name: db_postgres_github-ci
+    restart: always
+    ports:
+      - 5242:5432
+    env_file:
+      - .env
+    volumes:
+      - pg_github-ci:/var/lib/postgresql/data
+
+  node_app_github-ci:
+    container_name: node_app_github-ci
+    build:
+      - 5000:5000
+    depends_on:
+      - db_postgres_github-ci
+    env_file:
+      - .env
+
+volumes:
+  pg_github-ci:
